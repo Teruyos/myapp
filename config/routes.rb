@@ -1,4 +1,29 @@
-Myapp::Application.routes.draw do
+Blog::Application.routes.draw do
+  resources :categories
+
+
+  devise_for :users
+
+    resources :posts do
+        resources :comments
+    end
+    
+    
+  match 'day' => 'posts#day'
+  match 'day_list/:date' => 'posts#day_list'
+
+  match 'month' => 'posts#month'
+  match 'month_list/:date' => 'posts#month_list'
+
+  match 'year' => 'posts#year'
+  match 'year_list/:date' => 'posts#year_list'
+
+  match 'category_list' => 'posts#category_list'
+  match 'cat_list/:cat' => 'posts#cat_list'
+  match 'cat_list' => 'posts#cat_list'
+  
+  match 'category_list' => 'posts#category_list'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -48,7 +73,7 @@ Myapp::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  # root :to => 'welcome#index'
+  root :to => 'posts#index'
 
   # See how all your routes lay out with "rake routes"
 

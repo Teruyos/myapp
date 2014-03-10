@@ -1,0 +1,77 @@
+<h2><%= @post.title %></h2>
+
+<% if @post.category_id.nil? %>
+<h3>カテゴリ</h3>
+
+  <p>カテゴリが登録されていません</p>
+<% else %>
+  <h3>カテゴリ：<%= @post.category_id %></h3>
+  <p><%= @cat.name %></p>
+<% end %>
+
+<h3>Content</h3>
+
+<p><%= @post.content %></p>
+
+<h3>Comments</h3>
+<ul>
+<% if @post.comments.any? %>
+<% @post.comments.each do |comment| %>
+<li id="comment_<%= comment.id %>">
+<%= comment.body %> (by <%= comment.commenter %>)
+<%= link_to 'delete', [comment.post, comment], :confirm => 'Sure?',
+                            				   :method => :delete,
+                           					   :remote => true %>
+
+</li>
+<% end %>
+<% else %>
+<li>no comment yet.</li>
+<% end %>
+</ul>
+
+<h3>Add a comment</h3>
+<%= form_for([@post, @comment]) do |f| %>
+
+<% if @comment.errors.any? %>
+<ul>
+<% @comment.errors.full_messages.each do |msg| %>
+<li><%= msg %></li>
+<% end %>
+</ul>
+<% end %>
+
+<div class="field">
+  <%= f.label :commenter %>
+  <%= f.text_field :commenter %>
+</div>
+<div class="field">
+  <%= f.label :body %>
+  <%= f.text_area :body, :rows => 5 %>
+</div>
+<div class="actions">
+
+<%= image_tag @post.avatar.url(:medium) %><br>
+
+<%= f.submit %>
+</div>
+<% end %>
+
+<div id='user_nav'>
+  <% if user_signed_in? %>
+    Signed in as <%= current_user.email %>. <%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
+  <% else %>
+    <%= link_to "Sign up", new_user_registration_path %> or
+    <%= link_to "Sign in", new_user_session_path %>
+  <% end %>
+</div>
+
+<script>
+$(function() {  
+  $('a[data-method="delete"]').on('ajax:success', function(e, data, status, xhr) {
+    $('#comment_'+data.comment.id).fadeOut("slow");
+  });
+  
+});
+</script>
+

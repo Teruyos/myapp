@@ -11,7 +11,6 @@ group :production do
   gem 'thin' 
 end
 
-
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -22,6 +21,11 @@ group :assets do
   gem 'therubyracer', :platforms => :ruby
 
   gem 'uglifier', '>= 1.0.3'
+
+  gem "less-rails" 
+  gem "twitter-bootstrap-rails" 
+  gem 'kaminari'
+
 end
 
 gem 'jquery-rails'
@@ -40,3 +44,6 @@ gem 'jquery-rails'
 
 # To use debugger
 # gem 'debugger'
+
+gem 'devise', '2.2.4'
+gem "paperclip", "~> 3.0" 

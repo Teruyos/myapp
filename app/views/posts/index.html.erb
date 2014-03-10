@@ -1,0 +1,29 @@
+<div id="notice"><%= notice %></div>
+
+<h2>Posts</h2>
+
+<%= form_for @search_form, :url => posts_path,
+  :html => {:method => :get} do |f| %>
+
+  <%= select_date(@search_date, :prefix=>"search_from") %>
+  ～
+  <%= select_date(@search_date, :prefix=>"search_to") %>
+  
+  <%= f.search_field :q %>
+  <%= f.submit '検索' %>
+<% end %>
+
+<p><%= paginate @postspage %></p>
+
+<p>ページ:<%= @postspage.current_page %> / <%= @postspage.num_pages %></p>
+<p><%= @postspage.total_count %>件中<%= @postspage.offset_value %>
+～<%= @postspage.offset_value + @postspage.length %>件を表示しています。</p>
+
+
+<%= render 'list' %>
+
+<%= form_for @search_form, :url => posts_path,
+  :html => {:method => :get} do |f| %>
+  <%= f.search_field :q %>
+  <%= f.submit '検索' %>
+<% end %>
